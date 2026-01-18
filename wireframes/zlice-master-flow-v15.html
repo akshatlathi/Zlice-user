@@ -714,7 +714,27 @@
             <div class="phone">
                 <div class="screen">
                     <div class="back-header">← <span style="font-weight:600; color:#fff">Menu</span></div>
-                    <h2 style="font-size:22px; font-weight:800; margin-bottom:20px">Your Cart</h2>
+                    <h2 style="font-size:22px; font-weight:800; margin-bottom:16px">Your Cart</h2>
+
+                    <!-- ORDER TYPE TOGGLE -->
+                    <div class="section-label">ORDER TYPE</div>
+                    <div style="display:flex; gap:8px; margin-bottom:16px">
+                        <div
+                            style="flex:1; background:linear-gradient(135deg, #8b5cf6, #7c3aed); padding:12px; border-radius:12px; text-align:center; cursor:pointer">
+                            <div style="font-size:18px; margin-bottom:4px">🚴</div>
+                            <div style="font-weight:600; font-size:12px">Delivery</div>
+                        </div>
+                        <div
+                            style="flex:1; background:#18181b; border:1px solid #27272a; padding:12px; border-radius:12px; text-align:center; cursor:pointer">
+                            <div style="font-size:18px; margin-bottom:4px">🥡</div>
+                            <div style="font-weight:600; font-size:12px; color:#a1a1aa">Takeaway</div>
+                        </div>
+                        <div
+                            style="flex:1; background:#18181b; border:1px solid #27272a; padding:12px; border-radius:12px; text-align:center; cursor:pointer">
+                            <div style="font-size:18px; margin-bottom:4px">🍽️</div>
+                            <div style="font-weight:600; font-size:12px; color:#a1a1aa">Dine-in</div>
+                        </div>
+                    </div>
 
                     <div class="cart-item">
                         <div style="flex:1">
@@ -725,12 +745,12 @@
                         <div class="qty-control"><span>-</span> <span>1</span> <span>+</span></div>
                     </div>
 
-                    <div style="font-size:12px; color:#8b5cf6; margin-bottom:16px; cursor:pointer">+ Add more items
+                    <div style="font-size:12px; color:#8b5cf6; margin-bottom:14px; cursor:pointer">+ Add more items
                     </div>
 
                     <div class="section-label">COOKING INSTRUCTIONS</div>
                     <textarea class="note-input" rows="2" placeholder="e.g. less oil, no onion..."
-                        style="margin-bottom:16px"></textarea>
+                        style="margin-bottom:14px"></textarea>
 
                     <div class="section-label">OFFERS & AURA</div>
                     <div class="aura-redeem-card">
@@ -754,16 +774,21 @@
 
                     <div class="card" style="font-size:13px; margin-bottom:14px; padding:14px">
                         <div style="display:flex; justify-content:space-between; margin-bottom:6px">
-                            <span>Subtotal</span> <span>₹180</span></div>
+                            <span>Subtotal</span> <span>₹180</span>
+                        </div>
                         <div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#22c55e">
-                            <span>Coupon</span> <span>-₹36</span></div>
+                            <span>Coupon</span> <span>-₹36</span>
+                        </div>
                         <div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#71717a">
-                            <span>Delivery</span> <span>₹12</span></div>
+                            <span>Delivery</span> <span>₹12</span>
+                        </div>
                         <div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#71717a">
-                            <span>Platform Fee</span> <span>₹2</span></div>
+                            <span>Platform Fee</span> <span>₹2</span>
+                        </div>
                         <div style="border-top:1px solid #27272a; margin:8px 0"></div>
                         <div style="display:flex; justify-content:space-between; font-weight:700; font-size:16px">
-                            <span>Total</span> <span>₹158</span></div>
+                            <span>Total</span> <span>₹158</span>
+                        </div>
                     </div>
 
                     <div style="text-align:center; color:#facc15; font-size:12px; font-weight:600; margin-bottom:12px">
@@ -825,31 +850,47 @@
                     <div class="back-header">← Address</div>
                     <h2 class="headline" style="font-size:22px; margin-bottom:28px">Pay ₹158</h2>
 
-                    <div class="section-label">RECOMMENDED</div>
-                    <div class="pay-method selected">
-                        <div style="display:flex; align-items:center; gap:12px">
-                            <span style="font-size:22px">📱</span>
-                            <div><span style="font-weight:600">UPI</span> (GPay / PhonePe)</div>
-                        </div>
-                        <div class="radio checked"></div>
+                    <!-- UPI PAYMENT OPTIONS -->
+                    <div style="text-align:center; margin-bottom:24px">
+                        <div style="font-size:48px; margin-bottom:12px">📱</div>
+                        <p style="font-size:13px; color:#a1a1aa">Select your UPI app</p>
                     </div>
 
-                    <div class="section-label" style="margin-top:20px">OTHER METHODS</div>
-                    <div class="pay-method">
-                        <div style="display:flex; align-items:center; gap:12px"><span style="font-size:22px">💳</span>
-                            <div>Credit/Debit Card</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px">
+                        <div
+                            style="background:#18181b; border:2px solid #facc15; border-radius:14px; padding:16px; text-align:center; cursor:pointer">
+                            <div style="font-size:28px; margin-bottom:6px">💚</div>
+                            <div style="font-weight:600; font-size:13px">GPay</div>
                         </div>
-                        <div class="radio"></div>
-                    </div>
-                    <div class="pay-method">
-                        <div style="display:flex; align-items:center; gap:12px"><span style="font-size:22px">💵</span>
-                            <div>Cash on Delivery</div>
+                        <div
+                            style="background:#18181b; border:1px solid #27272a; border-radius:14px; padding:16px; text-align:center; cursor:pointer">
+                            <div style="font-size:28px; margin-bottom:6px">💜</div>
+                            <div style="font-weight:600; font-size:13px; color:#a1a1aa">PhonePe</div>
                         </div>
-                        <div class="radio"></div>
+                        <div
+                            style="background:#18181b; border:1px solid #27272a; border-radius:14px; padding:16px; text-align:center; cursor:pointer">
+                            <div style="font-size:28px; margin-bottom:6px">🔵</div>
+                            <div style="font-weight:600; font-size:13px; color:#a1a1aa">Paytm</div>
+                        </div>
+                        <div
+                            style="background:#18181b; border:1px solid #27272a; border-radius:14px; padding:16px; text-align:center; cursor:pointer">
+                            <div style="font-size:28px; margin-bottom:6px">🏦</div>
+                            <div style="font-weight:600; font-size:13px; color:#a1a1aa">Other UPI</div>
+                        </div>
                     </div>
 
-                    <button class="btn-primary btn-gold">Pay ₹158</button>
-                    <p style="text-align:center; margin-top:14px; font-size:11px; color:#52525b">🔒 100% Secure Payment
+                    <!-- ORDER SUMMARY -->
+                    <div
+                        style="background:#18181b; border:1px solid #27272a; padding:12px 16px; border-radius:12px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center">
+                        <div>
+                            <div style="font-size:12px; color:#71717a">1 item • Fit Crave</div>
+                            <div style="font-weight:600; font-size:13px; margin-top:2px">Chicken Bowl</div>
+                        </div>
+                        <div style="font-weight:700; font-size:18px">₹158</div>
+                    </div>
+
+                    <button class="btn-primary btn-gold">Pay ₹158 →</button>
+                    <p style="text-align:center; margin-top:14px; font-size:11px; color:#52525b">🔒 Secured by Razorpay
                     </p>
                 </div>
             </div>
@@ -997,7 +1038,8 @@
                         </div>
                         <div
                             style="font-size:10px; color:#71717a; margin-top:6px; display:flex; justify-content:space-between">
-                            <span>Rookie</span> <span>FOODIE (500)</span></div>
+                            <span>Rookie</span> <span>FOODIE (500)</span>
+                        </div>
                     </div>
 
                     <div
