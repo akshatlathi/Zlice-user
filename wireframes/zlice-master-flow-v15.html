@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zlice Master Flow v15 (Complete)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CORE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 24px;
+        }
+
+        h1 {
+            color: #8b5cf6;
+            text-align: center;
+            margin-bottom: 48px;
+            font-size: 26px;
+            letter-spacing: -0.5px;
+        }
+
+        .flow-container {
+            display: flex;
+            gap: 48px;
+            overflow-x: auto;
+            padding-bottom: 48px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .screen-wrapper {
+            flex: 0 0 375px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scroll-snap-align: start;
+        }
+
+        .screen-label {
+            color: #71717a;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #09090b;
+            border-radius: 44px;
+            border: 3px solid #1c1c1e;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .phone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 32px;
+            background: #000;
+            border-radius: 0 0 18px 18px;
+            z-index: 50;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            padding: 52px 20px 28px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- UI KIT --- */
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: auto;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #facc15, #eab308);
+            color: #000;
+            box-shadow: 0 4px 14px rgba(250, 204, 21, 0.4);
+        }
+
+        .btn-secondary {
+            background: #1c1c1e;
+            color: #fff;
+            border: 1px solid #27272a;
+            box-shadow: none;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #18181b;
+            border: 1px solid #27272a;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .back-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #a1a1aa;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .headline {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+        }
+
+        .subtext {
+            color: #71717a;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #52525b;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* --- BOTTOM NAV --- */
+        .bottom-nav {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            background: rgba(24, 24, 27, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 40;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: #52525b;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: #facc15;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        /* --- COMPONENTS --- */
+        .card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid #1c1c1e;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #27272a;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .coupon-card {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border: 1px dashed #6366f1;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .aura-redeem-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .note-input {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #27272a;
+            border-radius: 10px;
+            padding: 10px 12px;
+            color: #a1a1aa;
+            font-size: 12px;
+            font-family: inherit;
+            resize: none;
+        }
+
+        /* --- GAMIFICATION --- */
+        .spin-container {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin: 24px auto;
+            border: 5px solid #8b5cf6;
+            position: relative;
+            background: conic-gradient(#8b5cf6 0deg 72deg, #a78bfa 72deg 144deg, #7c3aed 144deg 216deg, #6d28d9 216deg 288deg, #facc15 288deg 360deg);
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.4);
+        }
+
+        .spin-arrow {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 24px solid #fff;
+            z-index: 5;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .spin-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 800;
+            font-size: 13px;
+            border: 4px solid #000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- ZONES --- */
+        .zone-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .zone-card {
+            background: #18181b;
+            border: 2px solid #27272a;
+            border-radius: 12px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .zone-card.active {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .zone-card .icon {
+            font-size: 20px;
+        }
+
+        .zone-card .label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #a1a1aa;
+        }
+
+        /* --- PAYMENT --- */
+        .pay-method {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #18181b;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #27272a;
+        }
+
+        .pay-method.selected {
+            border-color: #facc15;
+            background: rgba(250, 204, 21, 0.05);
+        }
+
+        .radio {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #52525b;
+        }
+
+        .radio.checked {
+            border: 5px solid #facc15;
+        }
+
+        /* --- REFERRAL --- */
+        .refer-code-box {
+            border: 2px dashed #8b5cf6;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            margin: 20px 0;
+            background: rgba(139, 92, 246, 0.08);
+        }
+
+        /* --- STREAK --- */
+        .streak-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .streak-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #27272a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .streak-dot.active {
+            background: #22c55e;
+            color: #fff;
+        }
+
+        .streak-dot.next {
+            border: 2px dashed #facc15;
+            background: transparent;
+            color: #facc15;
+        }
+
+        /* --- RATING --- */
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .star {
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+        /* --- TRACKING --- */
+        .timeline {
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #27272a;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #27272a;
+            border: 2px solid #27272a;
+        }
+
+        .timeline-item.done::before {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .timeline-item.current::before {
+            background: #8b5cf6;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 10px #8b5cf6;
+        }
+
+        .timeline-item .time {
+            font-size: 11px;
+            color: #52525b;
+        }
+
+        .timeline-item .label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Zlice Complete Master Flow v15</h1>
+
+    <div class="flow-container">
+
+        <!-- 1. WELCOME -->
+        <div class="screen-wrapper">
+            <div class="screen-label">1. Auth: Welcome</div>
+            <div class="phone">
+                <div class="screen" style="justify-content:center; align-items:center; text-align:center">
+                    <div style="font-size:64px; margin-bottom:24px">🍸</div>
+                    <h1 class="headline" style="font-size:40px">Finally.</h1>
+                    <p class="subtext" style="margin-bottom:32px">Someone with taste.</p>
+                    <div
+                        style="background:linear-gradient(135deg,#7c3aed,#8b5cf6); padding:10px 18px; border-radius:24px; font-weight:700; font-size:12px; margin-bottom:48px; display:inline-flex; align-items:center; gap:6px">
+                        🔥 SF SPECIAL: Get 100 Aura
+                    </div>
+                    <button
+                        style="background:#fff; color:#000; padding:16px 24px; width:100%; border-radius:14px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:10px; font-size:15px; border:none">
+                        <span style="font-weight:800; font-size:18px">G</span> Continue with Google
+                    </button>
+                    <p style="font-size:11px; color:#52525b; margin-top:24px">
+                        <a href="#" style="color:#71717a">Privacy</a> · <a href="#" style="color:#71717a">Terms</a> · <a
+                            href="#" style="color:#71717a">Refund</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. KGP VERIFICATION -->
+        <div class="screen-wrapper">
+            <div class="screen-label">2. Auth: KGP Gate</div>
+            <div class="phone">
+                <div class="screen">
+                    <div style="font-size:48px; margin-bottom:20px">🎓</div>
+                    <h2 class="headline">Unlock Campus Rates.</h2>
+                    <p class="subtext">Prove you belong to KGP. Get 100 Aura instantly.</p>
+
+                    <div class="input-field"
+                        style="display:flex; align-items:center; gap:8px; border-color:#8b5cf6; margin-bottom:24px">
+                        <span>📧</span> <span style="color:#fff">rollno</span><span
+                            style="color:#52525b">@iitkgp.ac.in</span>
+                    </div>
+
+                    <div class="section-label">YOU GET</div>
+                    <ul style="list-style:none; margin-bottom:32px; font-size:14px; color:#d4d4d8">
+                        <li style="margin-bottom:10px; display:flex; align-items:center; gap:8px"><span>⚡</span> 2x Aura
+                            on every order</li>
+                        <li style="display:flex; align-items:center; gap:8px"><span>🎟️</span> Exclusive SF Deals</li>
+                    </ul>
+
+                    <button class="btn-primary">Unlock Perks →</button>
+                    <p style="text-align:center; margin-top:16px; color:#52525b; font-size:13px; cursor:pointer">Skip
+                        for now</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SUCCESS -->
+        <div class="screen-wrapper">
+            <div class="screen-label">3. Auth: Success</div>
+            <div class="phone">
+                <div class="screen" style="align-items:center; justify-content:center; text-align:center">
+                    <div
+                        style="width:90px; height:90px; background:#22c55e; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:44px; margin-bottom:28px; box-shadow: 0 0 40px rgba(34, 197, 94, 0.4)">
+                        ✓</div>
+                    <h2 class="headline">You're in.</h2>
+                    <div
+                        style="font-size:52px; font-weight:800; color:#facc15; margin:16px 0; text-shadow: 0 0 30px rgba(250, 204, 21, 0.4)">
+                        +100 Aura</div>
+                    <p class="subtext">Added to your balance.</p>
+                    <button class="btn-primary">Start Ordering 🍕</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. HOME -->
+        <div class="screen-wrapper">
+            <div class="screen-label">4. Discovery: Home</div>
+            <div class="phone">
+                <div class="screen" style="padding-bottom:80px">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+                        <div style="font-weight:800; font-size:26px; color:#8b5cf6">Z</div>
+                        <div
+                            style="background:#1c1c1e; padding:7px 14px; border-radius:20px; display:flex; gap:6px; align-items:center; font-size:13px; font-weight:600">
+                            <span>🔮</span> 100
+                        </div>
+                    </div>
+
+                    <div
+                        style="background:linear-gradient(135deg, #7c3aed, #4c1d95); border-radius:18px; padding:20px; margin-bottom:20px; position:relative; overflow:hidden">
+                        <h3 style="font-size:19px; font-weight:700; width:65%; line-height:1.3">Dinner's ready?</h3>
+                        <p style="font-size:12px; color:#e9d5ff; margin:8px 0 14px; width:60%">Secure a hot plate from a
+                            warm room.</p>
+                        <button
+                            style="background:#facc15; border:none; padding:9px 18px; border-radius:10px; font-weight:700; font-size:12px; color:#000">ORDER
+                            NOW</button>
+                        <div style="position:absolute; right:-15px; bottom:-15px; font-size:70px; opacity:0.4">🥘</div>
+                    </div>
+
+                    <div style="display:flex; gap:10px; overflow-x:auto; margin-bottom:20px; padding-bottom:4px">
+                        <div
+                            style="background:#fff; color:#000; padding:8px 16px; border-radius:20px; font-size:12px; font-weight:600; white-space:nowrap">
+                            All</div>
+                        <div
+                            style="background:#18181b; border:1px solid #27272a; padding:8px 16px; border-radius:20px; font-size:12px; white-space:nowrap">
+                            🍛 North Indian</div>
+                        <div
+                            style="background:#18181b; border:1px solid #27272a; padding:8px 16px; border-radius:20px; font-size:12px; white-space:nowrap">
+                            🥡 Chinese</div>
+                    </div>
+
+                    <div class="section-label">OPEN NOW</div>
+                    <div class="card" style="display:flex; gap:12px; cursor:pointer">
+                        <div
+                            style="width:60px; height:60px; background:#27272a; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:26px">
+                            🥗</div>
+                        <div style="flex:1">
+                            <div style="font-weight:600; font-size:15px">Fit Crave</div>
+                            <div style="font-size:12px; color:#a1a1aa; margin-top:2px">★ 4.3 · Healthy · ₹150 for one
+                            </div>
+                            <div style="font-size:11px; color:#22c55e; margin-top:3px">🟢 Open till 2 AM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <div class="nav-icon">🏠</div>Home
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">📦</div>Orders
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">🔮</div>Aura
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">👤</div>Profile
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. MENU -->
+        <div class="screen-wrapper">
+            <div class="screen-label">5. Order: Menu</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← <span style="font-weight:600; color:#fff">Fit Crave</span></div>
+                    <div style="font-size:12px; color:#a1a1aa; margin-bottom:16px">★ 4.3 (234) · Healthy · 20-30 min
+                    </div>
+                    <div class="input-field"
+                        style="padding:11px 14px; font-size:13px; color:#71717a; margin-bottom:16px">🔍 Search menu...
+                    </div>
+
+                    <div
+                        style="display:flex; justify-content:space-between; font-weight:600; font-size:13px; margin-bottom:14px">
+                        <span>Popular</span>
+                        <span style="color:#22c55e">🌱 Veg</span>
+                    </div>
+
+                    <div class="card" style="display:flex; gap:12px">
+                        <div style="flex:1">
+                            <div style="font-weight:600">Chicken Bowl</div>
+                            <div style="font-size:11px; color:#71717a; margin:4px 0 6px; line-height:1.4">Grilled
+                                chicken, brown rice, seasonal veggies...</div>
+                            <div style="font-weight:700; font-size:15px">₹180</div>
+                            <div style="font-size:11px; color:#a1a1aa; margin-top:3px">★ 4.5 (89)</div>
+                        </div>
+                        <div
+                            style="display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between">
+                            <div style="width:70px; height:70px; background:#27272a; border-radius:10px"></div>
+                            <div
+                                style="background:#fff; color:#000; padding:6px 14px; border-radius:8px; font-weight:700; font-size:11px; margin-top:-12px; z-index:10; box-shadow:0 4px 12px rgba(0,0,0,0.3)">
+                                ADD +</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top:auto; background:linear-gradient(135deg, #7c3aed, #4c1d95); padding:14px 18px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px; cursor:pointer; box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4)">
+                        <div>1 item · ₹180</div>
+                        <div>View Cart →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. ITEM DETAIL (NEW) -->
+        <div class="screen-wrapper">
+            <div class="screen-label">6. Order: Item Detail</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← <span style="font-weight:600; color:#fff">Chicken Bowl</span></div>
+                    <div style="width:100%; height:180px; background:#27272a; border-radius:14px; margin-bottom:16px">
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px">
+                        <h2 style="font-weight:700; font-size:22px">Chicken Bowl</h2>
+                        <span style="font-weight:700; font-size:18px">₹180</span>
+                    </div>
+                    <div style="font-size:12px; color:#a1a1aa; margin-bottom:16px">★ 4.5 (89 ratings)</div>
+                    <p style="font-size:13px; color:#a1a1aa; line-height:1.6; margin-bottom:20px">Grilled chicken, brown
+                        rice, seasonal veggies, signature house sauce.</p>
+
+                    <div class="section-label">CUSTOMIZE</div>
+                    <div class="card">
+                        <label
+                            style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; cursor:pointer">
+                            <span style="font-size:14px">Extra Protein</span>
+                            <span style="color:#a1a1aa; font-size:13px">+₹40</span>
+                        </label>
+                        <label
+                            style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; cursor:pointer">
+                            <span style="font-size:14px">No Onion</span>
+                            <span style="color:#22c55e; font-size:13px">Free</span>
+                        </label>
+                        <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer">
+                            <span style="font-size:14px">Extra Spicy 🌶️</span>
+                            <span style="color:#22c55e; font-size:13px">Free</span>
+                        </label>
+                    </div>
+
+                    <div style="display:flex; gap:12px; margin-top:auto">
+                        <div class="qty-control" style="padding:10px 16px"><span>-</span> <span>1</span> <span>+</span>
+                        </div>
+                        <button class="btn-primary" style="flex:1; margin:0">Add ₹180 →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. CART -->
+        <div class="screen-wrapper">
+            <div class="screen-label">7. Order: Cart</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← <span style="font-weight:600; color:#fff">Menu</span></div>
+                    <h2 style="font-size:22px; font-weight:800; margin-bottom:20px">Your Cart</h2>
+
+                    <div class="cart-item">
+                        <div style="flex:1">
+                            <div style="font-weight:600">Chicken Bowl</div>
+                            <div style="font-size:11px; color:#71717a; margin:3px 0">Extra Spicy</div>
+                            <div style="font-weight:600; font-size:14px">₹180</div>
+                        </div>
+                        <div class="qty-control"><span>-</span> <span>1</span> <span>+</span></div>
+                    </div>
+
+                    <div style="font-size:12px; color:#8b5cf6; margin-bottom:16px; cursor:pointer">+ Add more items
+                    </div>
+
+                    <div class="section-label">COOKING INSTRUCTIONS</div>
+                    <textarea class="note-input" rows="2" placeholder="e.g. less oil, no onion..."
+                        style="margin-bottom:16px"></textarea>
+
+                    <div class="section-label">OFFERS & AURA</div>
+                    <div class="aura-redeem-card">
+                        <div style="display:flex; gap:10px; align-items:center">
+                            <span style="font-size:20px">🔮</span>
+                            <div>
+                                <div style="font-weight:600; font-size:13px">Pay with Aura</div>
+                                <div style="font-size:11px; color:#71717a">Use 50 Aura = Save ₹10</div>
+                            </div>
+                        </div>
+                        <div class="radio"></div>
+                    </div>
+                    <div class="coupon-card">
+                        <span style="font-size:18px">🏷️</span>
+                        <div style="flex:1">
+                            <div style="font-weight:600; font-size:13px">SAVE20 Applied</div>
+                            <div style="font-size:11px; color:#818cf8">You saved ₹36!</div>
+                        </div>
+                        <span style="font-weight:600; color:#818cf8; font-size:11px; cursor:pointer">REMOVE</span>
+                    </div>
+
+                    <div class="card" style="font-size:13px; margin-bottom:14px; padding:14px">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:6px">
+                            <span>Subtotal</span> <span>₹180</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#22c55e">
+                            <span>Coupon</span> <span>-₹36</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#71717a">
+                            <span>Delivery</span> <span>₹12</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#71717a">
+                            <span>Platform Fee</span> <span>₹2</span></div>
+                        <div style="border-top:1px solid #27272a; margin:8px 0"></div>
+                        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:16px">
+                            <span>Total</span> <span>₹158</span></div>
+                    </div>
+
+                    <div style="text-align:center; color:#facc15; font-size:12px; font-weight:600; margin-bottom:12px">
+                        ⚡ You'll earn +32 Aura!
+                    </div>
+                    <button class="btn-primary">Proceed to Checkout →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. CHECKOUT -->
+        <div class="screen-wrapper">
+            <div class="screen-label">8. Order: Address</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← Checkout</div>
+
+                    <h2 class="headline" style="font-size:20px; margin-bottom:4px">"Can we get your number?"</h2>
+                    <p class="subtext" style="font-size:12px; margin-bottom:14px">Just for food. Don't overthink it.</p>
+                    <div class="input-field" style="font-family:monospace; font-size:17px; margin-bottom:20px">🇮🇳 +91
+                        | 98765 43210</div>
+
+                    <h2 class="headline" style="font-size:20px; margin-bottom:4px">"Where do we find you?"</h2>
+                    <p class="subtext" style="font-size:12px; margin-bottom:14px">Pick a zone.</p>
+
+                    <div class="zone-grid">
+                        <div class="zone-card active">
+                            <div class="icon">🏠</div>
+                            <div class="label">Halls</div>
+                        </div>
+                        <div class="zone-card">
+                            <div class="icon">📚</div>
+                            <div class="label">Acad</div>
+                        </div>
+                        <div class="zone-card">
+                            <div class="icon">⚽</div>
+                            <div class="label">Gnd</div>
+                        </div>
+                        <div class="zone-card">
+                            <div class="icon">🚪</div>
+                            <div class="label">Gate</div>
+                        </div>
+                    </div>
+
+                    <div class="input-field" style="color:#71717a; padding:12px">Patel Hall (Select) ▼</div>
+                    <div class="input-field" style="color:#71717a; padding:12px; margin-top:-8px">Room number / Landmark
+                    </div>
+
+                    <button class="btn-primary">Proceed to Pay →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. PAYMENT -->
+        <div class="screen-wrapper">
+            <div class="screen-label">9. Order: Payment</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← Address</div>
+                    <h2 class="headline" style="font-size:22px; margin-bottom:28px">Pay ₹158</h2>
+
+                    <div class="section-label">RECOMMENDED</div>
+                    <div class="pay-method selected">
+                        <div style="display:flex; align-items:center; gap:12px">
+                            <span style="font-size:22px">📱</span>
+                            <div><span style="font-weight:600">UPI</span> (GPay / PhonePe)</div>
+                        </div>
+                        <div class="radio checked"></div>
+                    </div>
+
+                    <div class="section-label" style="margin-top:20px">OTHER METHODS</div>
+                    <div class="pay-method">
+                        <div style="display:flex; align-items:center; gap:12px"><span style="font-size:22px">💳</span>
+                            <div>Credit/Debit Card</div>
+                        </div>
+                        <div class="radio"></div>
+                    </div>
+                    <div class="pay-method">
+                        <div style="display:flex; align-items:center; gap:12px"><span style="font-size:22px">💵</span>
+                            <div>Cash on Delivery</div>
+                        </div>
+                        <div class="radio"></div>
+                    </div>
+
+                    <button class="btn-primary btn-gold">Pay ₹158</button>
+                    <p style="text-align:center; margin-top:14px; font-size:11px; color:#52525b">🔒 100% Secure Payment
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. SPIN -->
+        <div class="screen-wrapper">
+            <div class="screen-label">10. Post: Spin</div>
+            <div class="phone">
+                <div class="screen" style="align-items:center; justify-content:center; text-align:center">
+                    <div style="font-size:13px; color:#22c55e; margin-bottom:10px; font-weight:600">✓ Payment
+                        Successful!</div>
+                    <h2 class="headline" style="font-size:22px">Spin for Bonus Aura</h2>
+                    <div class="spin-container">
+                        <div class="spin-arrow"></div>
+                        <div class="spin-btn">SPIN</div>
+                    </div>
+                    <div
+                        style="background:#27272a; padding:10px 18px; border-radius:24px; margin-top:10px; font-size:13px">
+                        🔮 Win <span style="color:#facc15; font-weight:700">5-200 Aura</span>
+                    </div>
+                    <p style="color:#8b5cf6; margin-top:20px; font-size:13px; font-weight:600; cursor:pointer">Skip to
+                        Tracking →</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. TRACKING -->
+        <div class="screen-wrapper">
+            <div class="screen-label">11. Post: Tracking</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← <span style="font-weight:600; color:#fff">Order #ZL1234</span></div>
+                    <div style="text-align:center; margin-bottom:24px">
+                        <div style="font-size:44px; margin-bottom:10px">🍳</div>
+                        <h2 style="font-size:22px; font-weight:700">Preparing...</h2>
+                        <p style="color:#a1a1aa; font-size:13px">Fit Crave → Patel Hall</p>
+                        <p style="color:#facc15; font-size:13px; font-weight:600; margin-top:4px">ETA: ~20 min</p>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item done">
+                            <div class="time">3:45 PM</div>
+                            <div class="label">Order Placed</div>
+                        </div>
+                        <div class="timeline-item current">
+                            <div class="time">3:47 PM</div>
+                            <div class="label">Preparing</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">~4:00 PM</div>
+                            <div class="label">Ready for Pickup</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">~4:05 PM</div>
+                            <div class="label">Out for Delivery</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background:#4c1d95; border:1px solid #6d28d9; padding:14px; border-radius:12px; margin:16px 0; display:flex; align-items:center; gap:12px; cursor:pointer">
+                        <span style="font-size:22px">🗣️</span>
+                        <div>
+                            <div style="font-weight:600; font-size:13px">Waiting? Tell friends.</div>
+                            <div style="font-size:11px; color:#c4b5fd">Give 100, Get 100 Aura.</div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:10px; margin-top:auto">
+                        <button class="btn-secondary" style="flex:1; padding:12px; border-radius:12px">📞 Call</button>
+                        <button class="btn-secondary" style="flex:1; padding:12px; border-radius:12px">💬
+                            Support</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. RATING (NEW) -->
+        <div class="screen-wrapper">
+            <div class="screen-label">12. Post: Rating</div>
+            <div class="phone">
+                <div class="screen" style="align-items:center; justify-content:center; text-align:center">
+                    <div style="font-size:56px; margin-bottom:20px">🎉</div>
+                    <h2 class="headline">Order Delivered!</h2>
+                    <p class="subtext">How was the food?</p>
+
+                    <div class="stars">
+                        <span class="star" style="color:#facc15">★</span>
+                        <span class="star" style="color:#facc15">★</span>
+                        <span class="star" style="color:#facc15">★</span>
+                        <span class="star" style="color:#facc15">★</span>
+                        <span class="star" style="color:#27272a">★</span>
+                    </div>
+
+                    <textarea class="note-input" rows="2" placeholder="Tell us more (optional)..."
+                        style="margin:16px 0; width:100%"></textarea>
+
+                    <button class="btn-primary">Submit Rating</button>
+                    <p style="color:#52525b; margin-top:14px; font-size:12px; cursor:pointer">Skip →</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. STREAK (NEW) -->
+        <div class="screen-wrapper">
+            <div class="screen-label">13. Post: Streak</div>
+            <div class="phone">
+                <div class="screen" style="align-items:center; justify-content:center; text-align:center">
+                    <div style="font-size:56px; margin-bottom:16px">🔥</div>
+                    <h2 class="headline">3-Day Streak!</h2>
+                    <p class="subtext">You're on fire. Keep it up.</p>
+
+                    <div class="streak-dots">
+                        <div class="streak-dot active">✓</div>
+                        <div class="streak-dot active">✓</div>
+                        <div class="streak-dot active">✓</div>
+                        <div class="streak-dot next">4</div>
+                        <div class="streak-dot">5</div>
+                        <div class="streak-dot">6</div>
+                        <div class="streak-dot" style="background:#facc15; color:#000">🎁</div>
+                    </div>
+
+                    <div style="font-size:36px; font-weight:800; color:#facc15; margin:20px 0">+15 Aura</div>
+                    <p style="color:#71717a; font-size:13px">Bonus for your 3-day streak!</p>
+
+                    <button class="btn-primary" style="margin-top:32px">Awesome!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. DASHBOARD -->
+        <div class="screen-wrapper">
+            <div class="screen-label">14. Platform: Aura</div>
+            <div class="phone">
+                <div class="screen" style="padding-bottom:80px">
+                    <div style="text-align:center; margin-bottom:24px">
+                        <div
+                            style="width:110px; height:110px; border-radius:50%; border:4px solid #8b5cf6; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:34px; font-weight:800; color:#facc15; box-shadow: 0 0 30px rgba(139, 92, 246, 0.3)">
+                            247</div>
+                        <h2 style="font-size:15px; color:#a1a1aa">Your Aura</h2>
+                        <div
+                            style="background:#27272a; height:8px; border-radius:4px; margin-top:14px; overflow:hidden">
+                            <div style="width:49%; height:100%; background:linear-gradient(90deg, #facc15, #eab308)">
+                            </div>
+                        </div>
+                        <div
+                            style="font-size:10px; color:#71717a; margin-top:6px; display:flex; justify-content:space-between">
+                            <span>Rookie</span> <span>FOODIE (500)</span></div>
+                    </div>
+
+                    <div
+                        style="display:flex; gap:16px; border-bottom:1px solid #27272a; margin-bottom:18px; padding-bottom:10px">
+                        <div
+                            style="color:#fff; font-weight:600; font-size:13px; border-bottom:2px solid #8b5cf6; padding-bottom:10px; margin-bottom:-11px">
+                            Rewards</div>
+                        <div style="color:#52525b; font-size:13px">History</div>
+                        <div style="color:#52525b; font-size:13px">Challenges</div>
+                    </div>
+
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center">
+                        <div>
+                            <div style="font-weight:600; font-size:14px">🚀 Skip Queue</div>
+                            <div style="font-size:11px; color:#71717a">50 Aura</div>
+                        </div>
+                        <button
+                            style="padding:7px 16px; background:#27272a; border:1px solid #facc15; color:#facc15; border-radius:8px; font-size:11px; font-weight:600">Redeem</button>
+                    </div>
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center">
+                        <div>
+                            <div style="font-weight:600; font-size:14px">🚚 Free Delivery</div>
+                            <div style="font-size:11px; color:#71717a">120 Aura</div>
+                        </div>
+                        <button
+                            style="padding:7px 16px; background:#27272a; border:1px solid #facc15; color:#facc15; border-radius:8px; font-size:11px; font-weight:600">Redeem</button>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item">
+                        <div class="nav-icon">🏠</div>Home
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">📦</div>Orders
+                    </div>
+                    <div class="nav-item active">
+                        <div class="nav-icon">🔮</div>Aura
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">👤</div>Profile
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. REFERRAL -->
+        <div class="screen-wrapper">
+            <div class="screen-label">15. Platform: Referral</div>
+            <div class="phone">
+                <div class="screen">
+                    <div class="back-header">← Refer & Earn</div>
+                    <h2 class="headline" style="font-size:30px; line-height:1.1">Give 100,<br>Get 100.</h2>
+
+                    <div class="refer-code-box">
+                        <div style="font-size:11px; color:#71717a; margin-bottom:8px; letter-spacing:1px">YOUR CODE
+                        </div>
+                        <div style="font-size:26px; font-weight:800; color:#facc15; letter-spacing:3px">NIDHI100</div>
+                        <button
+                            style="margin-top:14px; background:#27272a; border:1px solid #3f3f46; color:#fff; padding:8px 18px; border-radius:8px; font-size:12px; font-weight:600">📋
+                            Copy Code</button>
+                    </div>
+
+                    <p style="font-size:12px; color:#71717a; text-align:center; line-height:1.6">Share this with a
+                        friend. When they place their first order, you both get <span
+                            style="color:#facc15; font-weight:600">100 Aura</span>.</p>
+
+                    <div style="margin-top:28px">
+                        <div class="section-label">YOUR REFERRALS</div>
+                        <div class="card" style="display:flex; justify-content:space-between">
+                            <span style="font-weight:600">Aman</span>
+                            <span style="color:#22c55e; font-weight:600">✓ +100 Aura</span>
+                        </div>
+                        <div class="card" style="display:flex; justify-content:space-between">
+                            <span style="color:#71717a">Priya</span>
+                            <span style="color:#71717a">⏳ Waiting</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary"
+                        style="margin-top:auto; background:#25D366; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4)">Share
+                        on WhatsApp →</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
