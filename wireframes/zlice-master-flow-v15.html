@@ -513,6 +513,14 @@
             <div class="screen-label">2. Auth: KGP Gate</div>
             <div class="phone">
                 <div class="screen">
+                    <!-- PROGRESS INDICATOR -->
+                    <div style="display:flex; justify-content:center; gap:8px; margin-bottom:20px">
+                        <div style="width:10px; height:10px; border-radius:50%; background:#22c55e"></div>
+                        <div style="width:10px; height:10px; border-radius:50%; background:#8b5cf6"></div>
+                        <div style="width:10px; height:10px; border-radius:50%; background:#27272a"></div>
+                    </div>
+                    <div style="text-align:center; font-size:11px; color:#52525b; margin-bottom:16px">Step 2 of 3</div>
+
                     <div style="font-size:48px; margin-bottom:20px">🎓</div>
                     <h2 class="headline">Unlock Campus Rates.</h2>
                     <p class="subtext">Prove you belong to KGP. Get 100 Aura instantly.</p>
@@ -566,6 +574,13 @@
                             style="background:#1c1c1e; padding:7px 14px; border-radius:20px; display:flex; gap:6px; align-items:center; font-size:13px; font-weight:600">
                             <span>🔮</span> 100
                         </div>
+                    </div>
+
+                    <!-- SEARCH BAR -->
+                    <div class="input-field"
+                        style="padding:12px 14px; margin-bottom:16px; display:flex; align-items:center; gap:10px">
+                        <span>🔍</span>
+                        <span style="color:#71717a; font-size:13px">What are you craving?</span>
                     </div>
 
                     <div
@@ -649,7 +664,10 @@
                         </div>
                         <div
                             style="display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between">
-                            <div style="width:70px; height:70px; background:#27272a; border-radius:10px"></div>
+                            <!-- ITEM IMAGE -->
+                            <div
+                                style="width:70px; height:70px; background:linear-gradient(135deg, #f97316, #ea580c); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:28px">
+                                🍛</div>
                             <div
                                 style="background:#fff; color:#000; padding:6px 14px; border-radius:8px; font-weight:700; font-size:11px; margin-top:-12px; z-index:10; box-shadow:0 4px 12px rgba(0,0,0,0.3)">
                                 ADD +</div>
@@ -771,6 +789,14 @@
                         </div>
                         <span style="font-weight:600; color:#818cf8; font-size:11px; cursor:pointer">REMOVE</span>
                     </div>
+                    <!-- COUPON INPUT -->
+                    <div style="display:flex; gap:8px; margin-bottom:14px">
+                        <div class="input-field"
+                            style="flex:1; padding:10px 12px; font-size:12px; color:#71717a; margin:0">Have a code?
+                            Enter here...</div>
+                        <button
+                            style="background:#8b5cf6; border:none; padding:10px 16px; border-radius:12px; color:#fff; font-weight:600; font-size:12px">Apply</button>
+                    </div>
 
                     <div class="card" style="font-size:13px; margin-bottom:14px; padding:14px">
                         <div style="display:flex; justify-content:space-between; margin-bottom:6px">
@@ -836,6 +862,14 @@
                     <div class="input-field" style="color:#71717a; padding:12px">Patel Hall (Select) ▼</div>
                     <div class="input-field" style="color:#71717a; padding:12px; margin-top:-8px">Room number / Landmark
                     </div>
+
+                    <!-- SAVE ADDRESS CHECKBOX -->
+                    <label style="display:flex; align-items:center; gap:10px; margin:14px 0; cursor:pointer">
+                        <div
+                            style="width:20px; height:20px; background:#8b5cf6; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px">
+                            ✓</div>
+                        <span style="font-size:13px; color:#a1a1aa">Save this address for next time</span>
+                    </label>
 
                     <button class="btn-primary">Proceed to Pay →</button>
                 </div>
@@ -956,6 +990,22 @@
                         <div>
                             <div style="font-weight:600; font-size:13px">Waiting? Tell friends.</div>
                             <div style="font-size:11px; color:#c4b5fd">Give 100, Get 100 Aura.</div>
+                        </div>
+                    </div>
+
+                    <!-- ORDER ITEMS -->
+                    <div
+                        style="background:#18181b; border:1px solid #27272a; padding:12px; border-radius:12px; margin-bottom:14px">
+                        <div style="font-size:11px; color:#52525b; margin-bottom:8px">YOUR ORDER</div>
+                        <div style="display:flex; justify-content:space-between; font-size:13px">
+                            <span>1x Chicken Bowl</span>
+                            <span>₹180</span>
+                        </div>
+                        <div style="font-size:11px; color:#71717a; margin-top:4px">Extra Spicy</div>
+                        <div style="border-top:1px solid #27272a; margin:10px 0"></div>
+                        <div style="display:flex; justify-content:space-between; font-weight:600; font-size:14px">
+                            <span>Total</span>
+                            <span>₹158</span>
                         </div>
                     </div>
 
