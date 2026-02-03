@@ -35,7 +35,8 @@
             background: rgba(15, 17, 21, 0.95);
             backdrop-filter: blur(10px);
             z-index: 9999;
-            display: flex;
+            display: none;
+            /* Hidden by default for wireframe testing */
             align-items: center;
             justify-content: center;
         }
@@ -2073,52 +2074,65 @@
             // fetchDashboardData();
         }
 
-        // Screen Navigation Logic
+        // Robust Navigation Logic
         function showScreen(screenId) {
             console.log('Switching to screen:', screenId);
 
-            // Hide all screens
+            // 1. Hide all screens
             document.querySelectorAll('.screen').forEach(s => {
+                s.style.display = 'none';
                 s.classList.remove('active');
             });
 
-            // Remove active class from all nav items
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.querySelectorAll('.mobile-nav-item').forEach(n => n.classList.remove('active'));
-
-            // Show target screen
-            const targetScreen = document.getElementById(screenId);
-            if (targetScreen) {
-                targetScreen.classList.add('active');
+            // 2. Show target screen
+            const target = document.getElementById(screenId);
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('active');
             } else {
-                console.error(`Screen ID '${screenId}' not found!`);
+                console.error('Screen not found:', screenId);
                 return;
             }
 
-            // Highlight nav item (Desktop)
-            // Using includes check is safer than strict equality for onclick strings
-            document.querySelectorAll('.nav-item').forEach(item => {
-                const onClickAttr = item.getAttribute('onclick');
-                if (onClickAttr && onClickAttr.includes(`'${screenId}'`)) {
-                    item.classList.add('active');
-                }
-            });
+            // 3. Update Nav State
+            const updateNavState = (selector) => {
+                document.querySelectorAll(selector).forEach(item => {
+                    item.classList.remove('active');
+                    // Check if the item text matches the screenId (simple heuristic)
+                    const text = item.innerText.trim().toLowerCase();
+                    if (text.includes(screenId)) {
+                        item.classList.add('active');
+                    }
+                    // Fallback: check onclick attribute if text doesn't match
+                    else if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(screenId)) {
+                        item.classList.add('active');
+                    }
+                });
+            };
 
-            // Highlight nav item (Mobile)
-            document.querySelectorAll('.mobile-nav-item').forEach(item => {
-                const onClickAttr = item.getAttribute('onclick');
-                if (onClickAttr && onClickAttr.includes(`'${screenId}'`)) {
-                    item.classList.add('active');
-                }
-            });
+            updateNavState('.nav-item');
+            updateNavState('.mobile-nav-item');
         }
 
-        // Initialize default screen
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Ensure Revenue is shown by default if no other active class exists
-            if (!document.querySelector('.screen.active')) {
-                showScreen('revenue');
-            }
+            // Make function global
+            window.showScreen = showScreen;
+
+            // Default to Revenue
+            showScreen('revenue');
+
+            // Attach listeners to nav items just in case inline onclicks fail
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.onclick = function () {
+                    // Extract screen name from text or attribute
+                    const onclickAttr = this.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/'([^']+)'/);
+                        if (match) showScreen(match[1]);
+                    }
+                };
+            });
         });
     </script>
 </body>
