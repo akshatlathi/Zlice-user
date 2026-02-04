@@ -2028,7 +2028,14 @@
             if (savedUrl && savedKey) {
                 initializeSupabase(savedUrl, savedKey);
             } else {
-                document.getElementById('connection-modal').style.display = 'flex';
+                // Ensure modal is shown initially if not connected
+                const modal = document.getElementById('connection-modal');
+                if (modal) modal.style.display = 'flex';
+            }
+            
+            // Initialize default screen
+            if (typeof window.showScreen === 'function') {
+                window.showScreen('revenue');
             }
         };
 
@@ -2045,16 +2052,8 @@
 
             try {
                 // Initialize client
-                const testClient = window.supabase.createClient(url, key);
-
-                // Test connection by fetching 1 row from users (or any table)
-                // Use a table we know exists, or just check if client creates successfully
-                // For now assuming client creation is enough to save, real fetch would be better
-                // But without knowing exact table names, we'll trust the input for now
-                // and fetch a non-existent row to test auth if possible. 
-                // Actually, let's just save and reload to "mock" the success for this demo
-                // untill we hook up real data fetching logic.
-
+                // const testClient = window.supabase.createClient(url, key);
+                // Mock success for wireframe
                 localStorage.setItem('aura_sb_url', url);
                 localStorage.setItem('aura_sb_key', key);
 
@@ -2068,14 +2067,14 @@
         }
 
         function initializeSupabase(url, key) {
-            supabase = window.supabase.createClient(url, key);
-            console.log("Supabase connected to: " + url);
-            // Here we would trigger the data fetch functions
-            // fetchDashboardData();
+            if (window.supabase) {
+                supabase = window.supabase.createClient(url, key);
+                console.log("Supabase connected to: " + url);
+            }
         }
 
-        // Robust Navigation Logic
-        function showScreen(screenId) {
+        // Robust Navigation Logic - Explicitly Global
+        window.showScreen = function(screenId) {
             console.log('Switching to screen:', screenId);
 
             // 1. Hide all screens
@@ -2112,28 +2111,7 @@
 
             updateNavState('.nav-item');
             updateNavState('.mobile-nav-item');
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            // Make function global
-            window.showScreen = showScreen;
-
-            // Default to Revenue
-            showScreen('revenue');
-
-            // Attach listeners to nav items just in case inline onclicks fail
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.onclick = function () {
-                    // Extract screen name from text or attribute
-                    const onclickAttr = this.getAttribute('onclick');
-                    if (onclickAttr) {
-                        const match = onclickAttr.match(/'([^']+)'/);
-                        if (match) showScreen(match[1]);
-                    }
-                };
-            });
-        });
+        };
     </script>
 </body>
 
