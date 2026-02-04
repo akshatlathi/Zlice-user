@@ -1990,32 +1990,7 @@
         </div>
     </nav>
 
-    <!-- Connection Modal -->
-    <div id="connection-modal" style="display: none;">
-        <div class="login-card">
-            <div style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Connect to Aura</div>
-            <div style="color: var(--text-secondary); margin-bottom: 24px;">Enter Supabase credentials to access
-                dashboard</div>
-
-            <input type="text" id="sb-url" class="login-input" placeholder="Supabase URL (https://...supabase.co)">
-            <input type="password" id="sb-key" class="login-input" placeholder="Service Role Key (ey...)">
-
-            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="connectSupabase()">
-                Connect Dashboard
-            </button>
-
-            <div id="login-error" style="color: var(--danger); font-size: 13px; margin-top: 16px; display: none;">
-                Connection failed. Check credentials.
-            </div>
-
-            <div style="margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px;">
-                <div style="font-size: 12px; color: var(--text-muted);">
-                    Keys are stored securely in your browser.<br>
-                    They are never sent to any 3rd party server.
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Connection Modal Removed -->
 
     <script>
         // Define global variables immediately
@@ -2068,52 +2043,16 @@
             }
         }
 
-        function initializeSupabase(url, key) {
-            if (window.supabase) {
-                supabase = window.supabase.createClient(url, key);
-                console.log("Supabase connected to: " + url);
-            }
-        }
-
-        window.connectSupabase = async function () {
-            var url = document.getElementById('sb-url').value.trim();
-            var key = document.getElementById('sb-key').value.trim();
-            var errorDiv = document.getElementById('login-error');
-
-            if (!url || !key) {
-                errorDiv.textContent = "Please enter both URL and Key";
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            try {
-                localStorage.setItem('aura_sb_url', url);
-                localStorage.setItem('aura_sb_key', key);
-                document.getElementById('connection-modal').style.display = 'none';
-                initializeSupabase(url, key);
-            } catch (e) {
-                errorDiv.textContent = "Connection failed: " + e.message;
-                errorDiv.style.display = 'block';
-            }
-        };
-
         // Main initialization
         window.addEventListener('load', function () {
             console.log('Dashboard Loaded');
 
-            // Check credentials
-            var savedUrl = localStorage.getItem('aura_sb_url');
-            var savedKey = localStorage.getItem('aura_sb_key');
-
-            if (savedUrl && savedKey) {
-                initializeSupabase(savedUrl, savedKey);
+            // Initial Screen - Always load Revenue directly
+            if (typeof window.showScreen === 'function') {
+                window.showScreen('revenue');
             } else {
-                var modal = document.getElementById('connection-modal');
-                if (modal) modal.style.display = 'flex';
+                console.error('showScreen not found on load');
             }
-
-            // Initial Screen
-            window.showScreen('revenue');
 
             // Attach explicit listeners to nav items as backup
             var navItems = document.querySelectorAll('.nav-item');
