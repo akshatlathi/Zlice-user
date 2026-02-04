@@ -2018,51 +2018,53 @@
     </div>
 
     <script>
-        let supabase = null;
+        // Define global variables immediately
+        var supabase = null;
 
-        // Check for saved credentials on load
-        window.onload = function () {
-            const savedUrl = localStorage.getItem('aura_sb_url');
-            const savedKey = localStorage.getItem('aura_sb_key');
+        // Make showScreen global immediately
+        window.showScreen = function (screenId) {
+            console.log('Switching to screen:', screenId);
 
-            if (savedUrl && savedKey) {
-                initializeSupabase(savedUrl, savedKey);
+            // 1. Hide all screens
+            var screens = document.querySelectorAll('.screen');
+            for (var i = 0; i < screens.length; i++) {
+                screens[i].style.display = 'none';
+                screens[i].classList.remove('active');
+            }
+
+            // 2. Show target screen
+            var target = document.getElementById(screenId);
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('active');
             } else {
-                // Ensure modal is shown initially if not connected
-                const modal = document.getElementById('connection-modal');
-                if (modal) modal.style.display = 'flex';
-            }
-            
-            // Initialize default screen
-            if (typeof window.showScreen === 'function') {
-                window.showScreen('revenue');
-            }
-        };
-
-        async function connectSupabase() {
-            const url = document.getElementById('sb-url').value.trim();
-            const key = document.getElementById('sb-key').value.trim();
-            const errorDiv = document.getElementById('login-error');
-
-            if (!url || !key) {
-                errorDiv.textContent = "Please enter both URL and Key";
-                errorDiv.style.display = 'block';
+                console.error('Screen not found:', screenId);
                 return;
             }
 
-            try {
-                // Initialize client
-                // const testClient = window.supabase.createClient(url, key);
-                // Mock success for wireframe
-                localStorage.setItem('aura_sb_url', url);
-                localStorage.setItem('aura_sb_key', key);
+            // 3. Update Nav State
+            updateNavState('.nav-item', screenId);
+            updateNavState('.mobile-nav-item', screenId);
+        };
 
-                document.getElementById('connection-modal').style.display = 'none';
-                initializeSupabase(url, key);
+        function updateNavState(selector, screenId) {
+            var items = document.querySelectorAll(selector);
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                item.classList.remove('active');
 
-            } catch (e) {
-                errorDiv.textContent = "Connection failed: " + e.message;
-                errorDiv.style.display = 'block';
+                // Check text content
+                var text = item.innerText.trim().toLowerCase();
+                if (text.indexOf(screenId) !== -1) {
+                    item.classList.add('active');
+                    continue;
+                }
+
+                // Check onclick attribute as fallback
+                var attr = item.getAttribute('onclick');
+                if (attr && attr.indexOf(screenId) !== -1) {
+                    item.classList.add('active');
+                }
             }
         }
 
@@ -2073,45 +2075,60 @@
             }
         }
 
-        // Robust Navigation Logic - Explicitly Global
-        window.showScreen = function(screenId) {
-            console.log('Switching to screen:', screenId);
+        window.connectSupabase = async function () {
+            var url = document.getElementById('sb-url').value.trim();
+            var key = document.getElementById('sb-key').value.trim();
+            var errorDiv = document.getElementById('login-error');
 
-            // 1. Hide all screens
-            document.querySelectorAll('.screen').forEach(s => {
-                s.style.display = 'none';
-                s.classList.remove('active');
-            });
-
-            // 2. Show target screen
-            const target = document.getElementById(screenId);
-            if (target) {
-                target.style.display = 'block';
-                target.classList.add('active');
-            } else {
-                console.error('Screen not found:', screenId);
+            if (!url || !key) {
+                errorDiv.textContent = "Please enter both URL and Key";
+                errorDiv.style.display = 'block';
                 return;
             }
 
-            // 3. Update Nav State
-            const updateNavState = (selector) => {
-                document.querySelectorAll(selector).forEach(item => {
-                    item.classList.remove('active');
-                    // Check if the item text matches the screenId (simple heuristic)
-                    const text = item.innerText.trim().toLowerCase();
-                    if (text.includes(screenId)) {
-                        item.classList.add('active');
-                    }
-                    // Fallback: check onclick attribute if text doesn't match
-                    else if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(screenId)) {
-                        item.classList.add('active');
-                    }
-                });
-            };
-
-            updateNavState('.nav-item');
-            updateNavState('.mobile-nav-item');
+            try {
+                localStorage.setItem('aura_sb_url', url);
+                localStorage.setItem('aura_sb_key', key);
+                document.getElementById('connection-modal').style.display = 'none';
+                initializeSupabase(url, key);
+            } catch (e) {
+                errorDiv.textContent = "Connection failed: " + e.message;
+                errorDiv.style.display = 'block';
+            }
         };
+
+        // Main initialization
+        window.addEventListener('load', function () {
+            console.log('Dashboard Loaded');
+
+            // Check credentials
+            var savedUrl = localStorage.getItem('aura_sb_url');
+            var savedKey = localStorage.getItem('aura_sb_key');
+
+            if (savedUrl && savedKey) {
+                initializeSupabase(savedUrl, savedKey);
+            } else {
+                var modal = document.getElementById('connection-modal');
+                if (modal) modal.style.display = 'flex';
+            }
+
+            // Initial Screen
+            window.showScreen('revenue');
+
+            // Attach explicit listeners to nav items as backup
+            var navItems = document.querySelectorAll('.nav-item');
+            for (var i = 0; i < navItems.length; i++) {
+                (function (item) {
+                    item.addEventListener('click', function () {
+                        var attr = item.getAttribute('onclick');
+                        if (attr) {
+                            var match = attr.match(/'([^']+)'/);
+                            if (match) window.showScreen(match[1]);
+                        }
+                    });
+                })(navItems[i]);
+            }
+        });
     </script>
 </body>
 
