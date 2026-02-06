@@ -1,93 +1,82 @@
-# PROJECT MIGRATION HANDOFF: ZLICE & AURA
-**Status:** Active Development | **Date:** February 2026
-**Target Audience:** Next Intelligent Agent (LLM)
+# ZLICE: STRATEGIC CONTEXT & BRAND DNA
+**Status:** Active Strategy | **Focus:** Brand, Psychology, & Culture
 
 ---
 
-## 1. THE VISION
-**Zlice** is not just a food delivery app; it is a "Campus Operating System" for IIT Kharagpur (and beyond).
-**Aura** is the internal currency that gamifies the economy.
+## 1. THE CORE PHILOSOPHY
+**Zlice** is not a food delivery app. It is a **"Campus Operating System"** for IIT Kharagpur (and beyond).
+We do not sell food; we sell **dopamine** and **status**.
 
-**Core Philosophy:**
-- **Psychology First:** Every interaction (sound, visual, click) is designed to trigger dopamine or hunger ("Visual Hunger").
-- **Premium Aesthetics:** Glassmorphism, dark mode, high-fidelity imagery ("Nano Banana" prompts). No "MVP" vibes.
-- **Witty/Savage Tone:** We speak Gen-Z. We are an insider, not a corporation.
-
----
-
-## 2. BRAND TONE & LANGUAGE (CRITICAL)
-**Voice:** The "Cool Senior" who knows all the campus secrets.
-- **Keywords:** Savage, Witty, Exclusive, Premium, Mysterious.
-- **Do Not Use:** Corporate jargon ("Synergy", "User-centric"), generic pleasantries.
-- **Do Use:** "The Oracle says...", "Unlock", "glitch", "dopamine", "Aura".
-
-**Sonic Identity ("Sonic DNA"):**
-- **Texture:** Sharp, metallic "Schwing" (Katana slice) + Digital Glitch.
-- **Music:** Glitch-Pop / Future Bass.
-- **Voice:** Deep, intimate, slightly fried (ASMR quality).
-
-**Visual Identity:**
-- **Colors:** Deep Charcoal (#121212) background, Neon Accents (Red/Orange for hunger, Green/Purple for status).
-- **Imagery:** Hyper-realistic macro food shots (Steam, dripping cheese, glistening fats).
-- **UI Style:** Glassmorphism 2.0, bento grids, interactive micro-animations.
+**The "Visual Hunger" Thesis:**
+Every pixel and sound is engineered to trigger a neuro-chemical response.
+- **The Look:** "Glistening lipids," steam, high contrast. We don't show a burger; we show the *craving* for a burger.
+- **The Sound:** A Pavlovian "Schwing" (katana slice) that signals reward.
+- **The Outcome:** Converting latent student hunger into immediate action through sensory dominance.
 
 ---
 
-## 3. CURRENT TECHNICAL STATUS
+## 2. THE BRAND VOICE: "THE COOL SENIOR"
+We are **not** a corporation. We are the insider who knows where the best paratha is at 3 AM.
 
-### **A. Aura Admin Dashboard (Frontend)**
-- **File:** `tech_dashboard.html` (in `Zlice-user` repo)
-- **Repo URL:** `https://github.com/akshatlathi/Zlice-user/blob/main/tech_dashboard.html`
-- **State:**
-    - **Wireframe Complete:** Visuals for Revenue, Economy, Coupons, Partners are built.
-    - **Navigation Fixed:** We implemented a robust `window.showScreen` global function to handle tab switching because standard `onclick` events were failing in some browser environments. **Do not refactor this back to simple inline JS without testing.**
-    - **Login Removed:** The `connection-modal` has been removed to allow immediate access for demos. The authentication logic is bypassed.
-    - **Backend:** **NOT IMPLEMENTED.** The dashboard currently uses hardcoded/mock data.
+### **Tone Guidelines:**
+- **Savage & Witty:** We roast bad decisions (like studying on an empty stomach).
+- **Insider:** We use campus slang naturally. We know the pain of 8 AM labs.
+- **Exclusive:** We are a club, not a utility. "Not everyone gets it. Yet."
+- **Mysterious:** We use "glitch" aesthetics and cryptic drops ("The Oracle").
 
-### **B. Marketing & Content**
-- **Instagram Strategy:** Automated content engine using Make.com + Gemini + Pollinations.ai.
-- **Themes:**
-    - "The Midnight Diary": Anonymous student stories.
-    - "The Food Oracle": Mystical food predictions.
-- **Assets:** Standee designs finalized ("KGP. Upgraded.").
-
-### **C. Repository Structure**
-- `Zlice-user/`: Main git repository.
-    - `tech_dashboard.html`: The **LATEST** dashboard code.
-    - `*.xlsx`: Financial models (v6, v5_SF) are backed up here.
-    - `*.html`: Older wireframes (reference only).
+### **Vocabulary:**
+- **YES:** "Ultracrepidarian" (just kidding), "Glitch", "Unlock", "Access", "Aura", "Midnight", "Fuel".
+- **NO:** "Tasty", "Yummy", "Fast Delivery", "User-centric", "Seamless experience".
 
 ---
 
-## 4. IMMEDIATE ROADMAP (What you need to do next)
+## 3. MASTER MARKETING STRATEGIES
 
-### **Phase 1: Backend Integration (The "Real" Work)**
-1.  **Supabase Setup:**
-    - Create the project.
-    - Schema: `users` (students), `partners` (restaurants), `coupons` (inventory), `aura_ledger` (transactions).
-2.  **Connect Dashboard:**
-    - Re-enable the login (securely).
-    - Replace hardcoded HTML tables with `fetch()` calls to Supabase.
+### **A. "The Midnight Diary" (Storytelling)**
+*Concept:* An anonymous student's food journal that serializes the IIT KGP life.
+* **Content:** First-person POV shots of messed-up desks, code that won't compile, and the food that gets them through it.
+* **Hook:** Vulnerability. "Day 47. The pizza is cold, but victory tastes like pepperoni."
 
-### **Phase 2: The "Aura" Economy**
-1.  **Logic Implementation:**
-    - Implement the "Inflation/Velocity" logic defined in `aura_monetary_policy.md`.
-    - Build the "Dynamic Pricing" engine for coupons.
+### **B. "The Food Oracle" (Viral Sharing)**
+*Concept:* An AI that gives you a "Food Horoscope" based on your mood.
+* **Mechanism:** "Mercury is in retrograde. Eat Biryani to survive."
+* **Goal:** Students screenshot and share their customized "reading" on Stories.
 
-### **Phase 3: Marketing Rollout**
-1.  **Execute the Automation:** Set up the Make.com workflows defined in `zlice_marketing_strategy.md`.
-2.  **Sonic Branding:** Generate the actual audio assets using Suno/ElevenLabs as per `zlice_jingle_prompts.md`.
-
----
-
-## 5. ARTIFACTS TO READ (Your Context Window)
-*These files contain the "Soul" of the project.*
-1.  `zlice_marketing_strategy.md`: The blueprint for viral growth.
-2.  `zlice_ux_blueprint.md`: The "Neuroaesthetic" design Bible.
-3.  `zlice_jingle_prompts.md`: The Audio identity guide.
-4.  `aura_monetary_policy.md`: The economic math behind the token.
+### **C. The Sonic Identity ("Sonic DNA")**
+*The Psychological Link:* Hearing the notification sound triggers hunger.
+* **The Texture:** Metallic, sharp, "Satisfying" (ASMR).
+* **The Sound:** A glitchy "Schwing" (Sword Slice).
+* **The Voice:** Deep, slightly fried, intimate (think movie trailer narrator but younger).
 
 ---
 
-**Final Note to Agent:**
-Maintain the "Premium" standard. If it looks basic, it fails. If it sounds boring, it fails. We are building a culture, not just an app.
+## 4. VISUAL & UX BLUEPRINT ("NEUROAESTHETICS")
+
+### **Design Language: Glassmorphism 2.0**
+- **Backgrounds:** Deep Charcoal (`#121212`) - No true black (prevents OLED smear).
+- **Accents:** Neon Orange (Hunger), Electric Purple (Mystery).
+- **Structure:** Bento Grids. Everything is modular and scannable.
+
+### **Dark Mode Strategy**
+- Text is Off-White (`#E0E0E0`), never pure white (reduces eye strain at 2 AM).
+- Food images must "pop" out of the darkness with exaggerated lighting ("Golden Hour").
+
+### **"Nano Banana" Imagery**
+- **Prompts:** "Macro shot," "Oozing cheese," "Condensation on glass," "Steam rising."
+- **Negative Prompts:** "Plastic," "Cartoon," "Flat," "Dull."
+
+---
+
+## 5. THE "AURA" ECONOMY (Context)
+**Aura** is the internal currency. It gamifies the consumption.
+- **Inflation/Burn:** We control the economy like a central bank.
+- **Velocity:** We measure how fast Aura moves. High velocity = high health.
+- **Dynamic Pricing:** Coupon prices (in Aura) drop as expiration nears to ensure 0% waste.
+
+---
+
+## 6. HANDOFF NOTE TO NEXT AGENT
+**Your Job:** Maintain the **soul** of this brand.
+- If you write copy, make it punchy and slightly arrogant.
+- If you design visuals, make them look expensive and edible.
+- **Never** revert to "Standard Corporate App" vibes. Zlice is a culture shock.
