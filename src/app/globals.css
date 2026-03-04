@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-zlice-bg: #0A0A0A;
+  --color-zlice-card: #1A1A1A;
+  --color-zlice-yellow: #FFC107;
+  --color-zlice-purple: #7C4DFF;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-zlice-bg);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Hide scrollbar for the coupon carousel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
